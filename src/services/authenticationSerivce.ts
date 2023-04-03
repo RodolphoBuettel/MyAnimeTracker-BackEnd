@@ -1,7 +1,7 @@
 import { authenticationRepository } from "../repository/authenticationRepository";
 import { Response } from "express";
 import bcrypt from "bcrypt";
-import { invalidCredentialsError } from "../erros/index";
+import { NotFoundError, invalidCredentialsError } from "../erros/index";
 import jwt from "jsonwebtoken";
 
 async function signUp(params: { name: string; email: string; passwordHashed: string; }, res: Response) {
@@ -9,7 +9,7 @@ async function signUp(params: { name: string; email: string; passwordHashed: str
 
     const verifyEmail = await authenticationRepository.findByEmail(email);
     if(verifyEmail){
-        return res.sendStatus(401);
+        return NotFoundError();
     }
 
     try{

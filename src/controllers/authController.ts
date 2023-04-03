@@ -8,10 +8,9 @@ export async function SignUp(req: Request, res: Response) {
     const passwordHashed = bcrypt.hashSync(password, 10);
     try {
         const result = await authenticationSerivce.signUp({ name, email, passwordHashed }, res);
-        console.log(result);
         res.sendStatus(200);
     } catch (err) {
-        console.log(err);
+        return res.sendStatus(401);
     }
 };
 
@@ -26,6 +25,6 @@ export async function SignIn(req: Request, res: Response) {
         const token = await authenticationSerivce.createSession(user.id);
         res.status(200).send(token);
     } catch (err) {
-        console.log(err);
+        return res.sendStatus(401);
     }
 }

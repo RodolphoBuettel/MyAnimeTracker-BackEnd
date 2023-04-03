@@ -5,4 +5,11 @@ export function invalidCredentialsError(): ApplicationError {
     name: "InvalidCredentialsError",
     message: "email or password are incorrect",
   };
-}
+};
+
+export function NotFoundError(): ApplicationError {
+  return {
+    name: "NotFoundError",
+    message: "not found"
+  };
+};
