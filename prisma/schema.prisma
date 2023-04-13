@@ -11,6 +11,7 @@ model MyAnimes {
   id         Int      @id(map: "MyAnimes_pk") @default(autoincrement())
   userId     Int
   animeId    Int      @unique
+  episodesCount Int  @default(0)
   createdAt  DateTime @db.Timestamp(6)
   upadatedAt DateTime @db.Timestamp(6)
   User       User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "MyAnimes_fk0")

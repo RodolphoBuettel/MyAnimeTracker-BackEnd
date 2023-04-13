@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import authRouter from "./routers/authRouter";
 import cors from "cors";
 import animeRouter from "./routers/animeRouter";
@@ -6,7 +6,7 @@ import animeRouter from "./routers/animeRouter";
 const app = express();
 app.use(express.json())
 app.use(cors());
-// app.get("/health", (_req: Request, res: Response) => res.send("I'am alive!"));
+app.get("/health", (_req: Request, res: Response) => res.send("I'am alive!"));
 app.use(authRouter);
 app.use(animeRouter);
 

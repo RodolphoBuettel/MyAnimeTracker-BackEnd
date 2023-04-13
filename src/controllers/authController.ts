@@ -25,6 +25,7 @@ export async function SignIn(req: Request, res: Response) {
         const token = await authenticationSerivce.createSession(user.id);
         res.status(200).send(token);
     } catch (err) {
+        console.log(err);
         return res.sendStatus(401);
     }
 }

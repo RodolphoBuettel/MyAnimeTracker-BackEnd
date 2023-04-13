@@ -14,6 +14,7 @@ async function signUp(params: { name: string; email: string; passwordHashed: str
 
     try{
         const result = await authenticationRepository.createAccount(name, email, passwordHashed);
+        console.log(result);
         return result;
     }catch(err){
         console.log(err);
