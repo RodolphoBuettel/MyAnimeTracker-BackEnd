@@ -4,11 +4,10 @@ import { Response } from "express";
 
 
 export async function postAnime(req: AuthenticatedRequest, res: Response) {
-    const { id } = req.body;
+    const { id, animeName } = req.body;
     const { userId } = req;
-
     try {
-        await animeService.postAnime(id, userId);
+        await animeService.postAnime(id, animeName, userId);
         res.sendStatus(200);
     } catch (err) {
         return res.sendStatus(404);
@@ -18,7 +17,6 @@ export async function postAnime(req: AuthenticatedRequest, res: Response) {
 export async function deleteAnime(req: AuthenticatedRequest, res: Response) {
     const { id } = req.params;
     const { userId } = req;
-    console.log(id);
 
     try {
         await animeService.deleteAnime(Number(id), userId);
@@ -39,6 +37,19 @@ export async function getAnimes(req: AuthenticatedRequest, res: Response) {
     };
 };
 
+export async function getAnimeByTerm(req: AuthenticatedRequest, res: Response) {
+    const { userId } = req;
+    const { searchTerm } = req.query;
+    console.log(searchTerm);
+    try{
+        const result = await animeService.getAnimeByTerm(userId, searchTerm.toString());
+        console.log(result);
+        res.status(200).send(result);
+    }catch(err){
+        console.log(err);
+    }
+}
+
 export async function findAnimeById(req: AuthenticatedRequest, res: Response) {
     const { id } = req.params;
 
@@ -54,10 +65,10 @@ export async function addEpisode(req: AuthenticatedRequest, res: Response) {
     const { id } = req.params;
     const { num } = req.body;
 
-    try{
+    try {
         const result = await animeService.addEpByAnimeId(Number(id), Number(num));
         res.sendStatus(200);
-    }catch(err){
+    } catch (err) {
         console.log(err);
     }
 }

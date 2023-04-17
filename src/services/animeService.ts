@@ -2,7 +2,7 @@ import { NotFoundError } from "../erros/index";
 import { animeRepository } from "../repository/animeRepository";
 
 
-async function postAnime(id: number, userId: number) {
+async function postAnime(id: number, animeName:string, userId: number) {
 
     const userExiste = await animeRepository.findUserById(userId);
     if (!userExiste) throw NotFoundError();
@@ -11,7 +11,7 @@ async function postAnime(id: number, userId: number) {
     if (!animeId) throw NotFoundError();
 
     try {
-        const result = await animeRepository.postAnime(id, userId);
+        const result = await animeRepository.postAnime(id,animeName, userId);
         return result;
     } catch (err) {
         console.log(err);
@@ -39,19 +39,25 @@ async function getAnimes(userId: number, page: number, pageSize: number) {
     if (!userExiste) throw NotFoundError();
     const skip = (page - 1) * pageSize;
     const take = pageSize;
-
-    console.log(skip, take);
+    
     try {
         const result = await animeRepository.getAnimes(userId, skip, take);
-        // const startIndex = (page - 1) * pageSize;
-        // const endIndex = startIndex + pageSize;
-        // const result = animes.slice(startIndex, endIndex);
-        console.log(result);
         return result;
     } catch (err) {
         console.log(err);
     }
 };
+
+async function getAnimeByTerm(userId: number, searchTerm: string) {
+    const userExiste = await animeRepository.findUserById(userId);
+    if (!userExiste) throw NotFoundError();
+    try{
+        const result = await animeRepository.getAnimeByTerm(userId, searchTerm);
+        return result;
+    }catch(err){
+        console.log(err);
+    }
+}
 
 async function findAnimeById(id: number) {
     try {
@@ -76,5 +82,6 @@ export const animeService = {
     deleteAnime,
     getAnimes,
     findAnimeById,
-    addEpByAnimeId
+    addEpByAnimeId,
+    getAnimeByTerm
 };

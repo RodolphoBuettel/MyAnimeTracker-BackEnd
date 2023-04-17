@@ -1,4 +1,4 @@
-import { addEpisode, deleteAnime, findAnimeById, getAnimes, postAnime } from "../controllers/animeController";
+import { addEpisode, deleteAnime, findAnimeById, getAnimeByTerm, getAnimes, postAnime } from "../controllers/animeController";
 import { authenticateToken } from "../middlewares/authenticationMiddleware";
 import { Router } from "express";
 
@@ -10,6 +10,7 @@ animeRouter
     .put("/myanimes/:id", addEpisode)
     .delete("/myanimes/:id", deleteAnime)
     .get("/myanimes", getAnimes)
+    .get("/myanimesbyterm", getAnimeByTerm )
     .get("/myanime/:id", findAnimeById);
 
 export default animeRouter;

@@ -1,10 +1,11 @@
 import prisma from "../config/database";
 
-async function postAnime(id: number, userId: number) {
+async function postAnime(id: number, animeName: string, userId: number) {
     return prisma.myAnimes.create({
         data: {
             userId: userId,
             animeId: id,
+            animeName: animeName,
             createdAt: new Date(),
             upadatedAt: new Date(),
         },
@@ -28,12 +29,24 @@ async function findUserById(userId: number) {
 };
 
 async function getAnimes(userId: number, skip: number, take: number) {
+
     return prisma.myAnimes.findMany({
-        where: {
+        where:{
             userId: userId
         },
         skip: skip,
         take: take
+    });
+};
+
+async function getAnimeByTerm(userId: number, searchTerm: string) {
+    return prisma.myAnimes.findMany({
+        where: {
+            userId: userId,
+            animeName: {
+                contains: searchTerm
+            },
+        }
     });
 };
 
@@ -58,5 +71,6 @@ export const animeRepository = {
     deleteAnime,
     getAnimes,
     findAnimeById,
-    addEpById
+    addEpById,
+    getAnimeByTerm
 };
